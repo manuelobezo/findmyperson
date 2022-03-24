@@ -7,5 +7,6 @@ require (
 	github.com/joho/godotenv v1.4.0
 	github.com/lib/pq v1.10.4
 	github.com/orlmonteverde/go-postgres-microblog v1.4.0
+	github.com/rs/cors v1.8.2
 	golang.org/x/crypto v0.0.0-20220315160706-3147a52a75dd
 )

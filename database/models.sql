@@ -7,5 +7,5 @@ CREATE TABLE IF NOT EXISTS persons (
     birthdate timestamp,
     created_at timestamp DEFAULT now(),
     updated_at timestamp NOT NULL,
-    CONSTRAINT pk_users PRIMARY KEY(id)
+    CONSTRAINT pk_persons PRIMARY KEY(id)
 );

@@ -30,7 +30,8 @@ func (pr *PersonRepository) GetAll(ctx context.Context) ([]person.Person, error)
         var p person.Person
         rows.Scan(&p.ID, &p.FirstName, &p.LastName, &p.Curp, &p.BirthDate, &p.Found,
 			&p.CreatedAt, &p.UpdatedAt)
-        persons = append(persons, p)
+		persons = append(persons, p)
+		
     }
 
     return persons, nil
@@ -125,7 +126,7 @@ func (pr *PersonRepository) Update(ctx context.Context, id uint, p person.Person
 
 //Eliminar persona
 func (pr *PersonRepository) Delete(ctx context.Context, id uint) error {
-    q := `DELETE FROM users WHERE id=$1;`
+    q := `DELETE FROM persons WHERE id=$1;`
 
     stmt, err := pr.Data.DB.PrepareContext(ctx, q)
     if err != nil {
