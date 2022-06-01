@@ -5,11 +5,14 @@ import(
 		"encoding/json"
 		"fmt"
 		"net/http"
-		"strconv"
+        "strconv"
+        //"time"
 
 		"github.com/go-chi/chi"
 		"github.com/manuelobezo/go-postgres-ambertAlert/pkg/response"
-		"github.com/manuelobezo/go-postgres-ambertAlert/pkg/person"
+        "github.com/manuelobezo/go-postgres-ambertAlert/pkg/person"
+        
+        //"github.com/mitchellh/mapstructure"
 
 )
 type PersonRouter struct {
@@ -18,6 +21,26 @@ type PersonRouter struct {
 
 //crear persona
 func (pr *PersonRouter) CreateHandler(w http.ResponseWriter, r *http.Request) {
+    /*var p person.Person
+    //err := json.NewDecoder(r.Body).Decode(&p)
+
+    decoder := json.NewDecoder(r.Body)
+
+    // Se usa para almacenar datos de clave de parámetro = valor
+    var params map[string]string
+ 
+    // Analiza los parámetros en el mapa
+    err := decoder.Decode(&params)
+
+    const shortForm = "2006-01-02"
+    t, _ := time.Parse(shortForm, params["BirthDate"])
+    
+
+    mapstructure.Decode(params, &p)
+    p.BirthDate=t
+    fmt.Printf("%+v\n",p)
+
+    */
     var p person.Person
     err := json.NewDecoder(r.Body).Decode(&p)
     if err != nil {
@@ -36,6 +59,7 @@ func (pr *PersonRouter) CreateHandler(w http.ResponseWriter, r *http.Request) {
 
     w.Header().Add("Location", fmt.Sprintf("%s%d", r.URL.String(), p.ID))
     response.JSON(w, r, http.StatusCreated, response.Map{"person": p})
+    
 }
 
 //obtener personas
@@ -146,7 +170,7 @@ func (pr *PersonRouter) Routes() http.Handler {
 
 	r.Get("/{id}", pr.GetOneHandler)
 
-	r.Get("/{curp}", pr.GetOneHandlerCurp)
+	//r.Get("/{curp}", pr.GetOneHandlerCurp)
 
 	r.Put("/{id}", pr.UpdateHandler)
 

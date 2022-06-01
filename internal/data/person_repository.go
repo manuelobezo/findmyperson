@@ -3,7 +3,8 @@ package data
 import (
 	"context"
 	"time"
-	"github.com/manuelobezo/go-postgres-ambertAlert/pkg/person"
+    "github.com/manuelobezo/go-postgres-ambertAlert/pkg/person"
+    "fmt"
 )
 
 type PersonRepository struct {
@@ -13,8 +14,7 @@ type PersonRepository struct {
 //obtener todos
 func (pr *PersonRepository) GetAll(ctx context.Context) ([]person.Person, error) {
     q := `
-    SELECT id, first_name, last_name, curp, found, birthdate
-        created_at, updated_at
+    SELECT id, first_name, last_name, curp, found, birthdate, created_at, updated_at
         FROM persons;
     `
 
@@ -28,9 +28,10 @@ func (pr *PersonRepository) GetAll(ctx context.Context) ([]person.Person, error)
     var persons []person.Person
     for rows.Next() {
         var p person.Person
-        rows.Scan(&p.ID, &p.FirstName, &p.LastName, &p.Curp, &p.BirthDate, &p.Found,
-			&p.CreatedAt, &p.UpdatedAt)
-		persons = append(persons, p)
+        rows.Scan(&p.ID, &p.FirstName, &p.LastName, &p.Curp, &p.Found, &p.BirthDate,&p.CreatedAt,&p.UpdatedAt)
+        p.BirthDate=p.BirthDate[0:10]//format to yyyy-mm-dd
+        persons = append(persons, p)
+        fmt.Printf(p.BirthDate[0:10])
 		
     }
 
@@ -40,7 +41,7 @@ func (pr *PersonRepository) GetAll(ctx context.Context) ([]person.Person, error)
 //obtener por id
 func (pr *PersonRepository) GetOne(ctx context.Context, id uint) (person.Person, error) {
     q := `
-    SELECT id, first_name, last_name, curp, found, birthdate
+    SELECT id, first_name, last_name, curp, birthdate, found,
         created_at, updated_at
         FROM persons WHERE id = $1;
     `
@@ -53,7 +54,7 @@ func (pr *PersonRepository) GetOne(ctx context.Context, id uint) (person.Person,
     if err != nil {
         return person.Person{}, err
     }
-
+    p.BirthDate=p.BirthDate[0:10]//format to yyyy-mm-dd
     return p, nil
 }
 
@@ -85,10 +86,13 @@ func (pr *PersonRepository) Create(ctx context.Context, p *person.Person) error 
         RETURNING id;
     `
 
+    current_time := time.Now()
+    p.CreatedAt = current_time
+    p.UpdatedAt = current_time
 
     row := pr.Data.DB.QueryRowContext(
-        ctx, q, p.FirstName, p.LastName, p.Curp, p.BirthDate, time.Now(),
-         time.Now(),
+        ctx, q, p.FirstName, p.LastName, p.Curp, p.BirthDate, p.CreatedAt,
+         p.UpdatedAt,
     )
 
     err := row.Scan(&p.ID)
