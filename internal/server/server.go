@@ -4,6 +4,7 @@ import (
 	"log"
 	"net/http"
 	"time"
+	"os"
 	"github.com/go-chi/cors"
 	"github.com/go-chi/chi"
     "github.com/go-chi/chi/middleware"
@@ -34,7 +35,7 @@ func New(port string) (*Server, error) {
 	r.Mount("/api/v1", v1.New())
 
 	serv := &http.Server{
-		Addr:         ":" + port,
+		Addr:         ":" + os.Getenv("PORT"),
 		Handler:      r,
 		ReadTimeout:  10 * time.Second,
 		WriteTimeout: 10 * time.Second,
