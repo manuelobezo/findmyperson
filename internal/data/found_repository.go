@@ -17,7 +17,7 @@ func (fr *FoundRepository) Create(ctx context.Context, f *found.Found) error {
 	error  :=  fr.Data.DB.QueryRow("SELECT id FROM persons WHERE curp = $1;",f.Person.Curp).Scan(&f.PersonID) 
 
 	if error != nil{
-		id :=fr.Data.DB.QueryRow("INSERT INTO persons (first_name, last_name, curp, birthdate, last_seen, missing, created_at, updated_at) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id;", f.Person.FirstName, f.Person.LastName, f.Person.Curp,f.Person.BirthDate, "", false,time.Now(),time.Now()).Scan(&f.PersonID) 
+		id :=fr.Data.DB.QueryRow("INSERT INTO persons (first_name, last_name, curp, birthdate, missing, created_at, updated_at) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id;", f.Person.FirstName, f.Person.LastName, f.Person.Curp,f.Person.BirthDate, false,time.Now(),time.Now()).Scan(&f.PersonID) 
 		if id != nil {
 			return id
 		}

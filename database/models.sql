@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS persons (
     last_name VARCHAR(150) NOT NULL,
     curp VARCHAR(150) UNIQUE,
     birthdate date,
-    last_seen varchar(150),
+    last_seen DATE,
     missing bool DEFAULT 'true',
     created_at timestamp DEFAULT now(),
     updated_at timestamp NOT NULL,
