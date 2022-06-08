@@ -1,5 +1,6 @@
-/*DROP TABLE IF EXISTS persons;
-DROP TABLE IF EXISTS founds;*/
+DROP TABLE IF EXISTS founds;
+DROP TABLE IF EXISTS persons;
+
 
 CREATE TABLE IF NOT EXISTS persons (
     id serial NOT NULL,
