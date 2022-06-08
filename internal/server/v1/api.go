@@ -16,8 +16,15 @@ func New() http.Handler {
         Repository: &data.PersonRepository{
             Data: data.New(),
         },
+    }
+    
+    fr := &FoundRouter{
+        Repository: &data.FoundRepository{
+            Data: data.New(),
+        },
 	}
 	
-	r.Mount("/persons", pr.Routes())
+    r.Mount("/persons", pr.Routes())
+    r.Mount("/founds", fr.Routes())
     return r
 }
