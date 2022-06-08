@@ -41,7 +41,7 @@ func (pr *PersonRepository) Create(ctx context.Context, p *person.Person) error 
 func (pr *PersonRepository) GetAll(ctx context.Context) ([]person.Person, error) {
     q := `
     SELECT id, first_name, last_name, curp, birthdate, last_seen, missing, created_at, updated_at
-        FROM persons;
+        FROM persons where missing=true;
     `
 
     rows, err := pr.Data.DB.QueryContext(ctx, q)
