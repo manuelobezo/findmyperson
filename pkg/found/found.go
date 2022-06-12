@@ -17,7 +17,7 @@ type Found struct {
     PersonID     uint	   `json:"person_id,omitempty"`
     FoundDate    string    `json:"found_date,omitempty"`
 	Address      string    `json:"address,omitempty"`
-    Hospitalized bool      `json:"hospitalized,omitempty"`	
+    Hospitalized string    `json:"hospitalized,omitempty"`	
     Condition    string    `json:"condition,omitempty"`
 	MoreInfo	 string	   `json:"more_info,omitempty"`	 
 	CreatedAt    time.Time `json:"created_at,omitempty"`

@@ -63,7 +63,7 @@ func (fr *FoundRepository) GetAll(ctx context.Context) ([]found.Found, error) {
 
     defer rows.Close()
 
-    var founds []found.Found
+    founds := []found.Found{}
     for rows.Next() {
         var f found.Found
         rows.Scan(&f.ID, &f.PersonID, &f.FoundDate, &f.Address, &f.Hospitalized, &f.Condition, &f.MoreInfo, &f.CreatedAt,&f.UpdatedAt)
@@ -72,7 +72,13 @@ func (fr *FoundRepository) GetAll(ctx context.Context) ([]found.Found, error) {
 			return nil, er
 		}
 
-		f.Person.BirthDate = f.Person.BirthDate[0:10]//format to yyyy-mm-dd
+        f.Person.BirthDate = f.Person.BirthDate[0:10]//format to yyyy-mm-dd
+        f.FoundDate=f.FoundDate[0:10]
+        if f.Hospitalized == "true"{
+            f.Hospitalized = "Si"
+        } else {
+            f.Hospitalized = "No"
+        }
 
         founds = append(founds, f)
     }
