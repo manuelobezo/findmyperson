@@ -51,11 +51,12 @@ func (pr *PersonRepository) GetAll(ctx context.Context) ([]person.Person, error)
 
     defer rows.Close()
 
-    var persons []person.Person
+    persons := []person.Person{}
     for rows.Next() {
         var p person.Person
         rows.Scan(&p.ID, &p.FirstName, &p.LastName, &p.Curp, &p.BirthDate, &p.LastSeen, &p.Missing, &p.CreatedAt,&p.UpdatedAt)
         p.BirthDate=p.BirthDate[0:10]//format to yyyy-mm-dd
+        p.LastSeen=p.LastSeen[0:10]
         persons = append(persons, p)
     }
 
